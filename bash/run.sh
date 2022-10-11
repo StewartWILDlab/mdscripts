@@ -26,8 +26,8 @@ for FILE in $STORAGE_DIR/*; do
 done
 
 # Print the list
-echo "Directory list:"
-printf "%s\n" "${DIRS[@]}"
+# echo "Directory list:"
+# printf "%s\n" "${DIRS[@]}"
 
 # For each folder, run md
 echo "Running MD"
@@ -46,12 +46,31 @@ for DIR in "${DIRS[@]}"; do
     CHECKPOINT_PATH="$(basename $DIR)_checkpoint.json"
     echo $CHECKPOINT_PATH
 
-    python $MD_FOLDER/detection/run_detector_batch.py \
-        $MD_FOLDER/$MODEL $RUN_DIR $OUTPUT_JSON \
-        --output_relative_filenames --recursive \
-        --checkpoint_frequency $CHECKPOINT_FREQ \
-        --checkpoint_path $CHECKPOINT_PATH
+    if [ -f "$STORAGE_DIR/$OUTPUT_JSON" ]; then # if output exist, break the loop
+        
+        echo "Output file $OUTPUT_JSON exists, moving to the next folder"
+        continue
+
+    elif [ -f "$STORAGE_DIR/$CHECKPOINT_PATH" ]; then # else, if checkpoint exists, use it
+
+        python $MD_FOLDER/detection/run_detector_batch.py \
+            $MD_FOLDER/$MODEL $RUN_DIR $STORAGE_DIR/$OUTPUT_JSON \
+            --output_relative_filenames --recursive \
+            --checkpoint_frequency $CHECKPOINT_FREQ \
+            --checkpoint_path $STORAGE_DIR/$CHECKPOINT_PATH \
+            --quiet \
+            --resume_from_checkpoint $STORAGE_DIR/$CHECKPOINT_PATH \
+            --allow_checkpoint_overwrite
+
+    else # else, start new run
+        python $MD_FOLDER/detection/run_detector_batch.py \
+            $MD_FOLDER/$MODEL $RUN_DIR $STORAGE_DIR/$OUTPUT_JSON \
+            --output_relative_filenames --recursive \
+            --checkpoint_frequency $CHECKPOINT_FREQ \
+            --checkpoint_path $STORAGE_DIR/$CHECKPOINT_PATH \
+            --quiet 
+    fi
 
 done
 
-cd OLD_DIR
+cd $OLD_DIR
