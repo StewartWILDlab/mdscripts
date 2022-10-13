@@ -6,6 +6,7 @@ BASE_FOLDER="/home/vlucet/Documents/WILDLab/repos/MDtest/git"
 MD_FOLDER="$BASE_FOLDER/cameratraps"
 MODEL="md_v5a.0.0.pt"
 CHECKPOINT_FREQ=1000
+# THRESHOLD=0.0001
 
 # Export python path
 export PYTHONPATH="$PYTHONPATH:$MD_FOLDER"
@@ -60,7 +61,7 @@ for DIR in "${DIRS[@]}"; do
             --checkpoint_path $STORAGE_DIR/$CHECKPOINT_PATH \
             --quiet \
             --resume_from_checkpoint $STORAGE_DIR/$CHECKPOINT_PATH \
-            --allow_checkpoint_overwrite
+            --allow_checkpoint_overwrite #--threshold $THRESHOLD
 
     else # else, start new run
         python $MD_FOLDER/detection/run_detector_batch.py \
@@ -68,7 +69,7 @@ for DIR in "${DIRS[@]}"; do
             --output_relative_filenames --recursive \
             --checkpoint_frequency $CHECKPOINT_FREQ \
             --checkpoint_path $STORAGE_DIR/$CHECKPOINT_PATH \
-            --quiet 
+            --quiet #--threshold $THRESHOLD
     fi
 
 done
