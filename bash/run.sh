@@ -37,6 +37,8 @@ OLD_DIR=$PWD
 cd $MD_FOLDER
 
 for DIR in "${DIRS[@]}"; do
+
+    echo "*** RUNNING MD ***"
     
     RUN_DIR=$STORAGE_DIR/$(basename $DIR)
     echo "Running on directory: $RUN_DIR"
@@ -72,6 +74,8 @@ for DIR in "${DIRS[@]}"; do
             --quiet #--threshold $THRESHOLD
     fi
 
+    echo "*** RUNNING CONVERTER ***"
+    
 done
 
 cd $OLD_DIR
