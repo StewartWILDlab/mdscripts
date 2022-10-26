@@ -49,7 +49,6 @@ for DIR in "${DIRS[@]}"; do
     if [ -f "$STORAGE_DIR/$OUTPUT_JSON" ]; then # if output exist, break the loop
         
         echo "Output file $OUTPUT_JSON exists, moving to the next folder"
-        continue
 
     elif [ -f "$STORAGE_DIR/$CHECKPOINT_PATH" ]; then # else, if checkpoint exists, use it
 
