@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
 ## CLI UTILITY FOR MD RUN
+## Mkae sure to activate conda env first
 
 # VARS
 STORAGE_DIR="/media/vlucet/TrailCamST/TrailCamStorage"
@@ -15,10 +16,6 @@ THRESHOLD_FILTER=0.1
 export PYTHONPATH="$PYTHONPATH:$MD_FOLDER"
 export PYTHONPATH="$PYTHONPATH:$BASE_FOLDER/ai4eutils"
 export PYTHONPATH="$PYTHONPATH:$BASE_FOLDER/yolov5"
-
-# Activate conda env (doesnt work)
-# echo "Activating conda env"
-# conda activate /home/vlucet/anaconda3/envs/cameratraps-detector
 
 # Start with empty array
 DIRS=()
