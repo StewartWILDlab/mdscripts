@@ -7,7 +7,6 @@
         <View className="interface" style="flex: 20%">
             <View>
                 <View>
-                    <Filter toName="species" minlength="0" name="filter" />
                     <RectangleLabels name="label_rectangles" toName="image" showInline="false">
                         <Label value="animal" background="rgba(0, 255, 0, 1)" />
                         <Label value="person" background="rgba(1, 146, 243, 1)" />
