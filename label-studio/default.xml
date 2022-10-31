@@ -1,5 +1,5 @@
 <View>
-    <Style> .interface { padding-left: 10px }</Style>
+    <Style> .interface { margin-left: 10px }</Style>
     <View style="display:flex ">
         <View style="flex: 80%">
             <Image name="image" value="$image" zoomControl="true" zoom="true" />
