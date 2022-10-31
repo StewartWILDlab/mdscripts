@@ -78,7 +78,6 @@ for DIR in "${DIRS[@]}"; do
     if [ -f "$STORAGE_DIR/$OUTPUT_JSON_LS" ]; then # if output exist, break the loop
         
         echo "Output file $OUTPUT_JSON_LS exists, moving to the next folder"
-        continue
 
     else
 
@@ -95,11 +94,12 @@ for DIR in "${DIRS[@]}"; do
     if [ -f "$STORAGE_DIR/$OUTPUT_CSV" ]; then # if output exist, break the loop
         
        echo "Output file $OUTPUT_CSV exists, moving to the next folder"
-       continue
 
     else
         mdtools convert csv $STORAGE_DIR/$OUTPUT_JSON -re False
     fi
+
+    echo "*** RUNNING EXIF CSV ***"
 
     OUTPUT_EXIF_CSV="$(basename $DIR)_exif_output.csv"
     echo $OUTPUT_EXIF_CSV
@@ -107,7 +107,6 @@ for DIR in "${DIRS[@]}"; do
     if [ -f "$STORAGE_DIR/$OUTPUT_EXIF_CSV" ]; then # if output exist, break the loop
         
        echo "Output file $OUTPUT_EXIF_CSV exists, moving to the next folder"
-       continue
 
     else
         mdtools readexif $STORAGE_DIR/$OUTPUT_JSON
