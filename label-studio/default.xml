@@ -1,13 +1,13 @@
 <View>
     <Style> .interface { margin-left: 10px }</Style>
     <View style="display:flex ">
-        <View style="flex: 80%">
+        <View style="flex: 60%">
             <Image name="image" value="$image" zoomControl="true" zoom="true" />
         </View>
-        <View className="interface" style="flex: 20%">
+        <View className="interface" style="flex: 40%">
             <View>
                 <View>
-                    <RectangleLabels name="label_rectangles" toName="image" showInline="false">
+                    <RectangleLabels name="label_rectangles" toName="image" showInline="true">
                         <Label value="animal" background="rgba(0, 255, 0, 1)" />
                         <Label value="person" background="rgba(1, 146, 243, 1)" />
                         <Label value="vehicle" background="rgba(241, 135, 0, 1)" />
@@ -16,7 +16,7 @@
             </View>
 
             <View whenLabelValue="animal" visibleWhen="region-selected">
-                <Header value="Species" size="3" />
+                <Header value="Species" size="5" />
                 <Choices name="species" choice="single-radio" toName="image" perRegion="true" showInline="true" required="true">
 
                     <Choice value="Moose" />
@@ -103,7 +103,7 @@
 
 
             <View whenLabelValue="animal" visibleWhen="region-selected">
-                <Header value="Sex" size="3" />
+                <Header value="Sex" size="5" />
                 <Choices name="sex" choice="single-radio" toName="image" perRegion="true" showInline="true" required="true">
                     <Choice alias="M" value="Male" />
                     <Choice alias="F" value="Female" />
@@ -115,8 +115,8 @@
                 <Collapse>
                     <Panel value="Behavior + Markings">
                         <View whenLabelValue="animal" visibleWhen="region-selected">
-                            <Header value="Behavior" size="3" />
-                            <Choices name="behavior" toName="image" perRegion="true" showInline="true">
+                            <Header value="Behavior" size="5" />
+                            <Choices name="behavior" choice="single-radio" toName="image" perRegion="true" showInline="true">
                                 <Choice alias="F" value="Feeding" />
                                 <Choice alias="T" value="Travelling" />
                                 <Choice alias="S" value="Standing" />
@@ -125,8 +125,8 @@
                         </View>
 
                         <View whenLabelValue="animal" visibleWhen="region-selected">
-                            <Header value="Unique Markings" size="3" />
-                            <Choices name="unique_markings" toName="image" perRegion="true" showInline="true">
+                            <Header value="Unique Markings" size="5" />
+                            <Choices name="unique_markings" choice="single-radio" toName="image" perRegion="true" showInline="true">
                                 <Choice alias="AM" value="Antler Marks" />
                                 <Choice alias="PM" value="Pelage Marks" />
                                 <Choice alias="AL" value="Alopecia" />
@@ -140,7 +140,7 @@
 
         </View>
     </View>
-    <Header value="Comments" size="3" />
+    <Header value="Comments" size="5" />
     <View>
         <TextArea name="comment" />
     </View>
