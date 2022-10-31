@@ -94,17 +94,29 @@ for DIR in "${DIRS[@]}"; do
 
     if [ -f "$STORAGE_DIR/$OUTPUT_CSV" ]; then # if output exist, break the loop
         
-        echo "Output file $OUTPUT_JSON_LS exists, moving to the next folder"
-        continue
+       echo "Output file $OUTPUT_CSV exists, moving to the next folder"
+       continue
 
     else
-        mdtools convert csv $STORAGE_DIR/$OUTPUT_JSON
+        mdtools convert csv $STORAGE_DIR/$OUTPUT_JSON -re False
+    fi
+
+    OUTPUT_EXIF_CSV="$(basename $DIR)_exif_output.csv"
+    echo $OUTPUT_EXIF_CSV
+
+    if [ -f "$STORAGE_DIR/$OUTPUT_EXIF_CSV" ]; then # if output exist, break the loop
+        
+       echo "Output file $OUTPUT_EXIF_CSV exists, moving to the next folder"
+       continue
+
+    else
+        mdtools readexif $STORAGE_DIR/$OUTPUT_JSON
     fi
 
 done
 
 echo "*** COMBINING CSVs ***"
 
-csvstack *_output.csv > combined.csv
+# csvstack *_output.csv > combined.csv
 
 cd $OLD_DIR
