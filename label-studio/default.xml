@@ -1,58 +1,128 @@
 <View>
-    <View style="display:flex">
+    <Style> .interface { padding-left: 10px }</Style>
+    <View style="display:flex ">
         <View style="flex: 80%">
-            <Image name="image" value="$image"/>
+            <Image name="image" value="$image" />
         </View>
-        <View style="flex: 20%">
+        <View className="interface" style="flex: 20%">
             <View>
                 <RectangleLabels name="label_rectangles" toName="image" showInline="false">
-                    <Label value="animal" background="rgba(0, 255, 0, 1)"/>
-                    <Label value="person" background="rgba(1, 146, 243, 1)"/>
-                    <Label value="vehicle" background="rgba(241, 135, 0, 1)"/>
+                    <Label value="animal" background="rgba(0, 255, 0, 1)" />
+                    <Label value="person" background="rgba(1, 146, 243, 1)" />
+                    <Label value="vehicle" background="rgba(241, 135, 0, 1)" />
                 </RectangleLabels>
             </View>
 
-            <Header value="Species" size="3"/>
             <View whenLabelValue="animal" visibleWhen="region-selected">
+                <Header value="Species" size="3" />
                 <Choices name="species" toName="image" perRegion="true" showInline="true" required="true">
-                    <Choice value="moose"/>
-                    <Choice value="wolf"/>
-                    <Choice value="caribou"/>
-                    <Choice value="sandhill crane"/>
-                    <Choice value="unknown"/>
+
+                    <Choice value="Moose" />
+                    <Choice value="Caribou" />
+                    <Choice value="Wolf" />
+                    <Choice value="Sandhill Crane" />
+                    <Choice value="Spruce Grouse" />
+
                 </Choices>
-                <View whenChoiceValue="wolf">
+
+                <Collapse>
+                    <Panel value="Other species">
+                        <Choices name="other_species" toName="image" perRegion="true" showInline="true" required="true">
+                            
+                            <Choice value="White-tailed deer" />
+                            <Choice value="Black bear" />
+                            <Choice value="Wolverine" />
+                            <Choice value="Marten" />
+                            <Choice value="Red Squirrel" />
+                            <Choice value="Canada Lynx" />
+                            <Choice value="Fisher" />
+                            <Choice value="Beaver" />
+                            <Choice value="American porcupine" />
+                            <Choice value="Northern flying squirrel" />
+                            <Choice value="Muskrat" />
+                            <Choice value="Red fox" />
+                            <Choice value="Polar bear" />
+                            <Choice value="Raccoon" />
+                            <Choice value="Striped skunk" />
+                            <Choice value="Short-tailed weasel" />
+                            <Choice value="Long-tailed weasel" />
+                            <Choice value="Least weasel" />
+                            <Choice value="American mink" />
+                            <Choice value="River otter" />
+                            <Choice value="Snowshoe hare" />
+                            <Choice value="Eastern chipmunk" />
+                            <Choice value="Least chipmunk" />
+                            <Choice value="Groundhog" />
+                            <Choice value="Bat" />
+                            <Choice value="Canada Jay" />
+
+                            <Choice value="Duck" />
+                            <Choice value="Small Bird" />
+                            <Choice value="Bat" />
+                            <Choice value="Owl" />
+
+                            <Choice value="unknown" />
+
+                        </Choices>
+                    </Panel>
+                </Collapse>
+
+                <View whenChoiceValue="Wolf">
                     <Choices name="young_wolf" toName="image" perRegion="true" showInline="true">
-                        <Choice value="YOY"/>
-                        <Choice value="YEA"/>
+                        <Choice value="YOY" />
+                        <Choice value="YEA" />
                     </Choices>
                 </View>
-                <View whenChoiceValue="moose">
+                <View whenChoiceValue="Moose">
                     <Choices name="young_moose" toName="image" perRegion="true" showInline="true">
-                        <Choice value="YOY"/>
-                        <Choice value="YEA"/>
+                        <Choice value="YOY" />
+                        <Choice value="YEA" />
+                    </Choices>
+                </View>
+                <View whenChoiceValue="Black Bear">
+                    <Choices name="young_bear" toName="image" perRegion="true" showInline="true">
+                        <Choice value="YOY" />
+                        <Choice value="YEA" />
+                    </Choices>
+                </View>
+                <View whenChoiceValue="Caribou">
+                    <Choices name="young_caribou" toName="image" perRegion="true" showInline="true">
+                        <Choice value="YOY" />
+                        <Choice value="YEA" />
+                    </Choices>
+                </View>
+                <View whenChoiceValue="Canada Lynx">
+                    <Choices name="young_lynx" toName="image" perRegion="true" showInline="true">
+                        <Choice value="YOY" />
+                        <Choice value="YEA" />
                     </Choices>
                 </View>
             </View>
-            <Header value="Sex" size="3"/>
+
+            
             <View whenLabelValue="animal" visibleWhen="region-selected">
+                <Header value="Sex" size="3" />
                 <Choices name="sex" toName="image" perRegion="true" showInline="true" required="true">
-                    <Choice value="M"/>
-                    <Choice value="F"/>
-                    <Choice value="U"/>
+                    <Choice value="M" />
+                    <Choice value="F" />
+                    <Choice value="Unknown" />
                 </Choices>
             </View>
-            <Header value="Behavior" size="3"/>
-            <View whenLabelValue="animal">
+
+            <View whenLabelValue="animal" visibleWhen="region-selected">
+                <Header value="Behavior" size="3" />
                 <Choices name="behavior" toName="image" perRegion="true" showInline="true">
-                    <Choice value="feeding"/>
-                    <Choice value="travelling"/>
+                    <Choice value="Feeding" />
+                    <Choice value="Travelling" />
+                    <Choice value="Standing" />
+                    <Choice value="Lying" />   
                 </Choices>
             </View>
+
         </View>
     </View>
-    <Header value="Comments" size="3"/>
+    <Header value="Comments" size="3" />
     <View>
-        <TextArea name="comment"/>
+        <TextArea name="comment" />
     </View>
 </View>
