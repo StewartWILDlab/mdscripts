@@ -114,8 +114,9 @@ for DIR in "${DIRS[@]}"; do
 
 done
 
-# echo "*** COMBINING CSVs ***"
+echo "*** COMBINING CSVs ***"
 
-# csvstack *_output.csv > combined.csv
+csvstack *_exif.csv > exif_combined.csv
+csvstack *_output.csv > md_combined.csv
 
 cd $OLD_DIR
