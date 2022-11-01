@@ -114,7 +114,7 @@ for DIR in "${DIRS[@]}"; do
 
 done
 
-echo "*** COMBINING CSVs ***"
+# echo "*** COMBINING CSVs ***"
 
 # csvstack *_output.csv > combined.csv
 
