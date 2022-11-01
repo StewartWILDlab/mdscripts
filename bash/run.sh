@@ -101,7 +101,7 @@ for DIR in "${DIRS[@]}"; do
 
     echo "*** RUNNING EXIF CSV ***"
 
-    OUTPUT_EXIF_CSV="$(basename $DIR)_exif_output.csv"
+    OUTPUT_EXIF_CSV="$(basename $DIR)_exif.csv"
     echo $OUTPUT_EXIF_CSV
 
     if [ -f "$STORAGE_DIR/$OUTPUT_EXIF_CSV" ]; then # if output exist, break the loop
