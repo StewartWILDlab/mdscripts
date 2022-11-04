@@ -7,6 +7,7 @@
         </View>
 
         <View className="interface" style="flex: 40%">
+            
             <View>
                 <RectangleLabels name="label_rectangles" toName="image" showInline="true">
                     <Label value="animal" background="rgba(0, 255, 0, 1)" />
@@ -64,19 +65,18 @@
 
                 </Choices>
 
-                <Header value="Age" size="5" />
+                <Header value="Sex and Age" size="5" />
+                <Choices name="sex" choice="single" toName="image" perRegion="true" showInline="true" required="true">
+                    <Choice alias="MAL" value="Male" />
+                    <Choice alias="FEM" value="Female" />
+                    <Choice alias="UNS" value="Unknown" />
+                </Choices>
+
                 <Choices name="age" choice="single" toName="image" perRegion="true" showInline="true" required="true">
                     <Choice alias="ADU" value="Adult" />
                     <Choice alias="YOY" value="Young of Year" />
                     <Choice alias="YEA" value="Yearling" />
                     <Choice alias="UNA" value="Unknown Age" />
-                </Choices>
-
-                <Header value="Sex" size="5" />
-                <Choices name="sex" choice="single" toName="image" perRegion="true" showInline="true" required="true">
-                    <Choice alias="MAL" value="Male" />
-                    <Choice alias="FEM" value="Female" />
-                    <Choice alias="UNS" value="Unknown" />
                 </Choices>
 
                 <Header value="Behavior" size="5" />
