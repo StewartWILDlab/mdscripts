@@ -1,9 +1,11 @@
 <View>
     <Style> .interface { margin-left: 10px }</Style>
     <View style="display:flex ">
+
         <View style="flex: 60%">
             <Image name="image" value="$image" zoomControl="true" zoom="true" />
         </View>
+
         <View className="interface" style="flex: 40%">
             <View>
                 <View>
@@ -16,6 +18,7 @@
             </View>
 
             <View whenLabelValue="animal" visibleWhen="region-selected">
+                
                 <Header value="Species" size="5" />
                 <Choices name="species" choice="single" toName="image" perRegion="true" showInline="true" required="true">
 
@@ -29,7 +32,7 @@
 
                 </Choices>
 
-                <Choices whenChoiceValue="Other [See more species]" name="other_species" choice="multiple" toName="image" perRegion="true" showInline="true" required="false">
+                <Choices whenChoiceValue="Other [See more species]" name="other_species" choice="single" toName="image" perRegion="true" showInline="true" required="false">
 
                     <Choice value="American mink" />
                     <Choice value="American porcupine" />
@@ -62,6 +65,7 @@
                     <Choice value="Small Bird" />
 
                 </Choices>
+                
                 <Header value="Age" size="5" />
                 <Choices choice="single" name="Age" toName="image" perRegion="true" showInline="true" required="true">
                     <choice alias="AD" value="Adult" />
@@ -70,35 +74,33 @@
                     <Choice alias="UN" value="Unknown" />
                 </Choices>
 
-            </View>
-
-            <View whenLabelValue="animal" visibleWhen="region-selected">
                 <Header value="Sex" size="5" />
                 <Choices name="sex" choice="single" toName="image" perRegion="true" showInline="true" required="true">
                     <Choice alias="MA" value="Male" />
                     <Choice alias="FE" value="Female" />
                     <Choice alias="UN" value="Unknown" />
                 </Choices>
-            </View>
 
-            <View whenLabelValue="animal" visibleWhen="region-selected">
-                <Header value="Behavior" size="5" />
-                <Choices name="behavior" choice="single" toName="image" perRegion="true" showInline="true" required="false">
-                    <Choice alias="FE" value="Feeding" />
-                    <Choice alias="TR" value="Travelling" />
-                    <Choice alias="ST" value="Standing" />
-                    <Choice alias="LY" value="Lying" />
-                </Choices>
-            </View>
+                <View whenLabelValue="animal" visibleWhen="region-selected">
+                    <Header value="Behavior" size="5" />
+                    <Choices name="behavior" choice="single" toName="image" perRegion="true" showInline="true" required="false">
+                        <Choice alias="FE" value="Feeding" />
+                        <Choice alias="TR" value="Travelling" />
+                        <Choice alias="ST" value="Standing" />
+                        <Choice alias="LY" value="Lying" />
+                    </Choices>
+                </View>
 
-            <View whenLabelValue="animal" visibleWhen="region-selected">
-                <Header value="Unique Markings" size="5" />
-                <Choices name="unique_markings" choice="single" toName="image" perRegion="true" showInline="true" required="false">
-                    <Choice alias="AM" value="Antler Marks" />
-                    <Choice alias="PM" value="Pelage Marks" />
-                    <Choice alias="AL" value="Alopecia" />
-                    <Choice alias="OT" value="Other" />
-                </Choices>
+                <View whenLabelValue="animal" visibleWhen="region-selected">
+                    <Header value="Unique Markings" size="5" />
+                    <Choices name="unique_markings" choice="single" toName="image" perRegion="true" showInline="true" required="false">
+                        <Choice alias="AM" value="Antler Marks" />
+                        <Choice alias="PM" value="Pelage Marks" />
+                        <Choice alias="AL" value="Alopecia" />
+                        <Choice alias="OT" value="Other" />
+                    </Choices>
+                </View>
+
             </View>
 
         </View>
