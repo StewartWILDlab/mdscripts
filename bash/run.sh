@@ -12,6 +12,10 @@ CHECKPOINT_FREQ=1000
 THRESHOLD_FILTER=0.1
 # THRESHOLD=0.0001
 
+OVERWRITE_MD=false
+OVERWRITE_LS=false
+OVERWRITE_CSV=false
+
 # Export python path
 export PYTHONPATH="$PYTHONPATH:$MD_FOLDER"
 export PYTHONPATH="$PYTHONPATH:$BASE_FOLDER/ai4eutils"
@@ -31,7 +35,6 @@ done
 # printf "%s\n" "${DIRS[@]}"
 
 OLD_DIR=$PWD
-cd $MD_FOLDER
 
 for DIR in "${DIRS[@]}"; do
 
@@ -46,7 +49,7 @@ for DIR in "${DIRS[@]}"; do
     CHECKPOINT_PATH="$(basename $DIR)_checkpoint.json"
     echo $CHECKPOINT_PATH
 
-    if [ -f "$STORAGE_DIR/$OUTPUT_JSON" ]; then # if output exist, break the loop
+    if [ -f "$STORAGE_DIR/$OUTPUT_JSON" ] && [ "$OVERWRITE_MD" != true ]; then # if output exist, break the loop
         
         echo "Output file $OUTPUT_JSON exists, moving to the next folder"
 
@@ -75,7 +78,7 @@ for DIR in "${DIRS[@]}"; do
     OUTPUT_JSON_LS="$(basename $DIR)_output_ls.json"
     echo $OUTPUT_JSON_LS
 
-    if [ -f "$STORAGE_DIR/$OUTPUT_JSON_LS" ]; then # if output exist, break the loop
+    if [ -f "$STORAGE_DIR/$OUTPUT_JSON_LS" ] && [ "$OVERWRITE_LS" != true ]; then # if output exist, break the loop
         
         echo "Output file $OUTPUT_JSON_LS exists, moving to the next folder"
 
@@ -104,7 +107,7 @@ for DIR in "${DIRS[@]}"; do
     OUTPUT_EXIF_CSV="$(basename $DIR)_exif.csv"
     echo $OUTPUT_EXIF_CSV
 
-    if [ -f "$STORAGE_DIR/$OUTPUT_EXIF_CSV" ]; then # if output exist, break the loop
+    if [ -f "$STORAGE_DIR/$OUTPUT_EXIF_CSV" ] && [ "$OVERWRITE_CSV" != true ]; then # if output exist, break the loop
         
        echo "Output file $OUTPUT_EXIF_CSV exists, moving to the next folder"
 
@@ -116,7 +119,7 @@ done
 
 echo "*** COMBINING CSVs ***"
 
-csvstack *_exif.csv > exif_combined.csv
-csvstack *_output.csv > md_combined.csv
+csvstack $STORAGE_DIR/*_exif.csv > $STORAGE_DIR/exif_combined.csv
+csvstack $STORAGE_DIR/*_output.csv > $STORAGE_DIR/md_combined.csv
 
 cd $OLD_DIR
