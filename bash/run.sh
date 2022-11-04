@@ -73,23 +73,7 @@ for DIR in "${DIRS[@]}"; do
             --quiet #--threshold $THRESHOLD
     fi
 
-    echo "*** RUNNING CONVERTER ***"
-
-    OUTPUT_JSON_LS="$(basename $DIR)_output_ls.json"
-    echo $OUTPUT_JSON_LS
-
-    if [ -f "$STORAGE_DIR/$OUTPUT_JSON_LS" ] && [ "$OVERWRITE_LS" != true ]; then # if output exist, break the loop
-        
-        echo "Output file $OUTPUT_JSON_LS exists, moving to the next folder"
-
-    else
-
-        mdtools convert ls $STORAGE_DIR/$OUTPUT_JSON -ct $THRESHOLD_FILTER -bd $RUN_DIR \
-            -ru "data/local-files/?d=$(basename $STORAGE_DIR)/$(basename $DIR)" \
-            --write-coco True
-    fi
-
-    echo "*** RUNNING CSV ***"
+     echo "*** RUNNING CSV ***"
 
     OUTPUT_CSV="$(basename $DIR)_output.csv"
     echo $OUTPUT_CSV
@@ -113,6 +97,22 @@ for DIR in "${DIRS[@]}"; do
 
     else
         mdtools readexif $STORAGE_DIR/$OUTPUT_JSON
+    fi
+
+    echo "*** RUNNING CONVERTER TO LS ***"
+
+    OUTPUT_JSON_LS="$(basename $DIR)_output_ls.json"
+    echo $OUTPUT_JSON_LS
+
+    if [ -f "$STORAGE_DIR/$OUTPUT_JSON_LS" ] && [ "$OVERWRITE_LS" != true ]; then # if output exist, break the loop
+        
+        echo "Output file $OUTPUT_JSON_LS exists, moving to the next folder"
+
+    else
+
+        mdtools convert ls $STORAGE_DIR/$OUTPUT_JSON -ct $THRESHOLD_FILTER -bd $RUN_DIR \
+            -ru "data/local-files/?d=$(basename $STORAGE_DIR)/$(basename $DIR)" \
+            --write-coco True
     fi
 
 done
