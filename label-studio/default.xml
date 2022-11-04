@@ -64,7 +64,6 @@
 
                 </Choices>
 
-
                 <Header value="Age" size="5" />
                 <Choices name="age" choice="single" toName="image" perRegion="true" showInline="true" required="true">
                     <Choice alias="ADU" value="Adult" />
@@ -72,7 +71,6 @@
                     <Choice alias="YEA" value="Yearling" />
                     <Choice alias="UNA" value="Unknown Age" />
                 </Choices>
-
 
                 <Header value="Sex" size="5" />
                 <Choices name="sex" choice="single" toName="image" perRegion="true" showInline="true" required="true">
@@ -96,7 +94,6 @@
                     <Choice alias="AL" value="Alopecia" />
                     <Choice alias="OT" value="Other" />
                 </Choices>
-
 
             </View>
 
