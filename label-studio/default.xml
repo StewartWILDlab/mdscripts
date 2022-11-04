@@ -8,13 +8,11 @@
 
         <View className="interface" style="flex: 40%">
             <View>
-                <View>
-                    <RectangleLabels name="label_rectangles" toName="image" showInline="true">
-                        <Label value="animal" background="rgba(0, 255, 0, 1)" />
-                        <Label value="person" background="rgba(1, 146, 243, 1)" />
-                        <Label value="vehicle" background="rgba(241, 135, 0, 1)" />
-                    </RectangleLabels>
-                </View>
+                <RectangleLabels name="label_rectangles" toName="image" showInline="true">
+                    <Label value="animal" background="rgba(0, 255, 0, 1)" />
+                    <Label value="person" background="rgba(1, 146, 243, 1)" />
+                    <Label value="vehicle" background="rgba(241, 135, 0, 1)" />
+                </RectangleLabels>
             </View>
 
             <View whenLabelValue="animal" visibleWhen="region-selected">
@@ -32,7 +30,7 @@
 
                 </Choices>
 
-                <Choices whenChoiceValue="Other [See more species]" name="other_species" choice="single" toName="image" perRegion="true" showInline="true" required="false">
+                <Choices whenChoiceValue="Other [See more species]" name="other_species" choice="single" toName="image" perRegion="true" showInline="true">
 
                     <Choice value="American mink" />
                     <Choice value="American porcupine" />
@@ -66,23 +64,25 @@
 
                 </Choices>
 
+
                 <Header value="Age" size="5" />
-                <Choices choice="single" name="Age" toName="image" perRegion="true" showInline="true" required="true">
-                    <choice alias="AD" value="Adult" />
+                <Choices name="age" choice="single" toName="image" perRegion="true" showInline="true" required="true">
+                    <Choice alias="ADU" value="Adult" />
                     <Choice alias="YOY" value="Young of Year" />
                     <Choice alias="YEA" value="Yearling" />
-                    <Choice alias="UN" value="Unknown" />
+                    <Choice alias="UNA" value="Unknown Age" />
                 </Choices>
+
 
                 <Header value="Sex" size="5" />
                 <Choices name="sex" choice="single" toName="image" perRegion="true" showInline="true" required="true">
-                    <Choice alias="MA" value="Male" />
-                    <Choice alias="FE" value="Female" />
-                    <Choice alias="UN" value="Unknown" />
+                    <Choice alias="MAL" value="Male" />
+                    <Choice alias="FEM" value="Female" />
+                    <Choice alias="UNS" value="Unknown" />
                 </Choices>
 
                 <Header value="Behavior" size="5" />
-                <Choices name="behavior" choice="single" toName="image" perRegion="true" showInline="true" required="false">
+                <Choices name="behavior" choice="single" toName="image" perRegion="true" showInline="true">
                     <Choice alias="FE" value="Feeding" />
                     <Choice alias="TR" value="Travelling" />
                     <Choice alias="ST" value="Standing" />
@@ -90,23 +90,27 @@
                 </Choices>
 
                 <Header value="Unique Markings" size="5" />
-                <Choices name="unique_markings" choice="single" toName="image" perRegion="true" showInline="true" required="false">
+                <Choices name="unique_markings" choice="single" toName="image" perRegion="true" showInline="true">
                     <Choice alias="AM" value="Antler Marks" />
                     <Choice alias="PM" value="Pelage Marks" />
                     <Choice alias="AL" value="Alopecia" />
                     <Choice alias="OT" value="Other" />
                 </Choices>
 
+
             </View>
 
         </View>
     </View>
+
     <Header value="Comments" size="5" />
     <View>
         <TextArea name="comment" />
     </View>
-    <Choices name="notes" choice="multiple" toName="image" perRegion="true" showInline="true" required="false">
+
+    <Choices name="notes" choice="multiple" toName="image" perRegion="true" showInline="true">
         <Choice alias="UNS" value="Unsure" />
         <Choice alias="POI" value="Picture of Interest" />
     </Choices>
+
 </View>
