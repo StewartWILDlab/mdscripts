@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 ## CLI UTILITY FOR MD RUN
-## Mkae sure to activate conda env first
+## Make sure to activate conda env first
 
 # VARS
 STORAGE_DIR="/media/vlucet/TrailCamST/TrailCamStorage"
