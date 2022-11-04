@@ -24,83 +24,81 @@
                     <Choice value="Wolf" />
                     <Choice value="Sandhill Crane" />
                     <Choice value="Spruce Grouse" />
+                    <Choice value="Unknown" />
+                    <Choice value="Other [See more species]" />
 
                 </Choices>
 
-                <Collapse>
-                    <Panel value="Other species">
-                        <Choices name="other_species" choice="single-radio" toName="image" perRegion="true" showInline="true" required="true">
+                <Choices whenChoiceValue="Other [See more species]" name="other_species" choice="single-radio" toName="image" perRegion="true" showInline="true" required="true">
 
-                            <Choice value="White-tailed deer" />
-                            <Choice value="Black bear" />
-                            <Choice value="Wolverine" />
-                            <Choice value="Marten" />
-                            <Choice value="Red Squirrel" />
-                            <Choice value="Canada Lynx" />
-                            <Choice value="Fisher" />
-                            <Choice value="Beaver" />
-                            <Choice value="American porcupine" />
-                            <Choice value="Northern flying squirrel" />
-                            <Choice value="Muskrat" />
-                            <Choice value="Red fox" />
-                            <Choice value="Polar bear" />
-                            <Choice value="Raccoon" />
-                            <Choice value="Striped skunk" />
-                            <Choice value="Short-tailed weasel" />
-                            <Choice value="Long-tailed weasel" />
-                            <Choice value="Least weasel" />
-                            <Choice value="American mink" />
-                            <Choice value="River otter" />
-                            <Choice value="Snowshoe hare" />
-                            <Choice value="Eastern chipmunk" />
-                            <Choice value="Least chipmunk" />
-                            <Choice value="Groundhog" />
-                            <Choice value="Bat" />
-                            <Choice value="Canada Jay" />
+                    <Choice value="American mink" />
+                    <Choice value="American porcupine" />
+                    <Choice value="Bat" />
+                    <Choice value="Beaver" />
+                    <Choice value="Black bear" />
+                    <Choice value="Canada Jay" />
+                    <Choice value="Canada Lynx" />
+                    <Choice value="Duck" />
+                    <Choice value="Eastern chipmunk" />
+                    <Choice value="Fisher" />
+                    <Choice value="Groundhog" />
+                    <Choice value="Least chipmunk" />
+                    <Choice value="Least weasel" />
+                    <Choice value="Long-tailed weasel" />
+                    <Choice value="Marten" />
+                    <Choice value="Muskrat" />
+                    <Choice value="Northern flying squirrel" />
+                    <Choice value="Owl" />
+                    <Choice value="Polar bear" />
+                    <Choice value="Raccoon" />
+                    <Choice value="Red fox" />
+                    <Choice value="Red squirrel" />
+                    <Choice value="River otter" />
+                    <Choice value="Short-tailed weasel" />
+                    <Choice value="Snowshoe hare" />
+                    <Choice value="Striped skunk" />
+                    <Choice value="White-tailed deer" />
+                    <Choice value="Wolverine" />
+                    <Choice value="Small Bird" />
 
-                            <Choice value="Duck" />
-                            <Choice value="Small Bird" />
-                            <Choice value="Bat" />
-                            <Choice value="Owl" />
-
-                            <Choice value="unknown" />
-
-                        </Choices>
-                    </Panel>
-                </Collapse>
+                </Choices>
 
                 <View whenChoiceValue="Wolf">
                     <Choices choice="single-radio" name="young_wolf" toName="image" perRegion="true" showInline="true">
                         <Choice alias="YOY" value="Young of Year" />
                         <Choice alias="YEA" value="Yearling" />
+                        <Choice value="Unknown" />
                     </Choices>
                 </View>
                 <View whenChoiceValue="Moose">
                     <Choices choice="single-radio" name="young_moose" toName="image" perRegion="true" showInline="true">
                         <Choice alias="YOY" value="Young of Year" />
                         <Choice alias="YEA" value="Yearling" />
+                        <Choice value="Unknown" />
                     </Choices>
                 </View>
-                <View whenChoiceValue="Black Bear">
+                <View whenChoiceValue="Black bear">
                     <Choices choice="single-radio" name="young_bear" toName="image" perRegion="true" showInline="true">
                         <Choice alias="YOY" value="Young of Year" />
                         <Choice alias="YEA" value="Yearling" />
+                        <Choice value="Unknown" />
                     </Choices>
                 </View>
                 <View whenChoiceValue="Caribou">
                     <Choices choice="single-radio" name="young_caribou" toName="image" perRegion="true" showInline="true">
                         <Choice alias="YOY" value="Young of Year" />
                         <Choice alias="YEA" value="Yearling" />
+                        <Choice value="Unknown" />
                     </Choices>
                 </View>
                 <View whenChoiceValue="Canada Lynx">
                     <Choices choice="single-radio" name="young_lynx" toName="image" perRegion="true" showInline="true">
                         <Choice alias="YOY" value="Young of Year" />
                         <Choice alias="YEA" value="Yearling" />
+                        <Choice value="Unknown" />
                     </Choices>
                 </View>
             </View>
-
 
             <View whenLabelValue="animal" visibleWhen="region-selected">
                 <Header value="Sex" size="5" />
@@ -136,7 +134,6 @@
                     </Panel>
                 </Collapse>
             </View>
-
 
         </View>
     </View>
