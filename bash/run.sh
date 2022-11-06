@@ -13,8 +13,9 @@ THRESHOLD_FILTER=0.1
 # THRESHOLD=0.0001
 
 OVERWRITE_MD=false
-OVERWRITE_LS=false
+OVERWRITE_LS=false # TODO switch this
 OVERWRITE_CSV=false
+OVERWRITE_COMBINED=true # TODO switch this
 OVERWRITE_MD_COMBINED=false
 OVERWRITE_EXIF_COMBINED=false
 
@@ -51,7 +52,7 @@ for DIR in "${DIRS[@]}"; do
     CHECKPOINT_PATH="$(basename $DIR)_checkpoint.json"
     echo $CHECKPOINT_PATH
 
-    if [ -f "$STORAGE_DIR/$OUTPUT_JSON" ] && [ "$OVERWRITE_MD" != true ]; then # if output exist, break the loop
+    if [ -f "$STORAGE_DIR/$OUTPUT_JSON" ] && [ "$OVERWRITE_MD" != true ]; then # if output exist, do nothing
         
         echo "Output file $OUTPUT_JSON exists, moving to the next folder"
 
@@ -75,12 +76,12 @@ for DIR in "${DIRS[@]}"; do
             --quiet #--threshold $THRESHOLD
     fi
 
-     echo "*** RUNNING CSV ***"
+    echo "*** RUNNING CSV ***"
 
     OUTPUT_CSV="$(basename $DIR)_output.csv"
     echo $OUTPUT_CSV
 
-    if [ -f "$STORAGE_DIR/$OUTPUT_CSV" ]; then # if output exist, break the loop
+    if [ -f "$STORAGE_DIR/$OUTPUT_CSV" ]; then # if output exist, do nothing
         
        echo "Output file $OUTPUT_CSV exists, moving to the next folder"
 
@@ -93,7 +94,7 @@ for DIR in "${DIRS[@]}"; do
     OUTPUT_EXIF_CSV="$(basename $DIR)_exif.csv"
     echo $OUTPUT_EXIF_CSV
 
-    if [ -f "$STORAGE_DIR/$OUTPUT_EXIF_CSV" ] && [ "$OVERWRITE_CSV" != true ]; then # if output exist, break the loop
+    if [ -f "$STORAGE_DIR/$OUTPUT_EXIF_CSV" ] && [ "$OVERWRITE_CSV" != true ]; then # if output exist, do nothing
         
        echo "Output file $OUTPUT_EXIF_CSV exists, moving to the next folder"
 
@@ -101,12 +102,27 @@ for DIR in "${DIRS[@]}"; do
         mdtools readexif $STORAGE_DIR/$OUTPUT_JSON
     fi
 
+    echo "*** RUNNING JOIN EXIF TO CSV"
+    
+    OUTPUT_COMBINED_CSV="$(basename $DIR)_combined.csv"
+    echo $OUTPUT_COMBINED_CSV
+
+    if [ -f "$STORAGE_DIR/$OUTPUT_COMBINED_CSV" ] && [ "$OVERWRITE_COMBINED" != true ]; then # if output exist, do nothing
+        
+        echo "Output file $OUTPUT_COMBINED_CSV exists, moving to the next folder"
+
+    else
+
+        mdtools joinexif $STORAGE_DIR/$OUTPUT_CSV $STORAGE_DIR/$OUTPUT_EXIF_CSV $STORAGE_DIR/$OUTPUT_COMBINED_CSV
+
+    fi
+
     echo "*** RUNNING CONVERTER TO LS ***"
 
     OUTPUT_JSON_LS="$(basename $DIR)_output_ls.json"
     echo $OUTPUT_JSON_LS
 
-    if [ -f "$STORAGE_DIR/$OUTPUT_JSON_LS" ] && [ "$OVERWRITE_LS" != true ]; then # if output exist, break the loop
+    if [ -f "$STORAGE_DIR/$OUTPUT_JSON_LS" ] && [ "$OVERWRITE_LS" != true ]; then # if output exist, do nothing
         
         echo "Output file $OUTPUT_JSON_LS exists, moving to the next folder"
 
@@ -114,7 +130,7 @@ for DIR in "${DIRS[@]}"; do
 
         mdtools convert ls $STORAGE_DIR/$OUTPUT_JSON -ct $THRESHOLD_FILTER -bd $RUN_DIR \
             -ru "data/local-files/?d=$(basename $STORAGE_DIR)/$(basename $DIR)" \
-            --write-coco True
+            --write-coco True --use-score-table True --score-table $STORAGE_DIR/$OUTPUT_COMBINED_CSV
     fi
 
 done
