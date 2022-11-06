@@ -15,6 +15,8 @@ THRESHOLD_FILTER=0.1
 OVERWRITE_MD=false
 OVERWRITE_LS=false
 OVERWRITE_CSV=false
+OVERWRITE_MD_COMBINED=false
+OVERWRITE_EXIF_COMBINED=false
 
 # Export python path
 export PYTHONPATH="$PYTHONPATH:$MD_FOLDER"
@@ -119,7 +121,16 @@ done
 
 echo "*** COMBINING CSVs ***"
 
-csvstack $STORAGE_DIR/*_exif.csv > $STORAGE_DIR/exif_combined.csv
-csvstack $STORAGE_DIR/*_output.csv > $STORAGE_DIR/md_combined.csv
+if [ -f "$STORAGE_DIR/exif_combined.csv" ] && [ "$OVERWRITE_EXIF_COMBINED" != true ]; then
+    echo "EXIF combined file present"
+else
+    csvstack $STORAGE_DIR/*_exif.csv > $STORAGE_DIR/exif_combined.csv
+fi
+
+if [ -f "$STORAGE_DIR/md_combined.csv" ] && [ "$OVERWRITE_MD_COMBINED" != true ]; then
+    echo "MD combined file present"
+else
+    csvstack $STORAGE_DIR/*_output.csv > $STORAGE_DIR/md_combined.csv
+fi
 
 cd $OLD_DIR
