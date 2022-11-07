@@ -16,17 +16,19 @@
                 </RectangleLabels>
             </View>
 
-            <View whenLabelValue="animal" visibleWhen="region-selected">
+            <View visibleWhen="region-selected">
 
                 <Header value="Species" size="5" />
                 <Choices name="species" choice="single" toName="image" perRegion="true" showInline="true" required="true">
 
+                    <Choice value="Unknown" selected="true" />
                     <Choice value="Moose" />
                     <Choice value="Caribou" />
                     <Choice value="Wolf" />
                     <Choice value="Sandhill Crane" />
                     <Choice value="Spruce Grouse" />
-                    <Choice value="Unknown" />
+                    <Choice value="Human" />
+                    <Choice value="Vehicle" />
                     <Choice value="Other [See more species]" />
 
                 </Choices>
@@ -67,12 +69,14 @@
 
                 <Header value="Sex and Age" size="5" />
                 <Choices name="sex" choice="single" toName="image" perRegion="true" showInline="true" required="true">
+                    <Choice alias="NA" value="NA" selected = "true"/>
                     <Choice alias="MAL" value="Male" />
                     <Choice alias="FEM" value="Female" />
                     <Choice alias="UNS" value="Unknown" />
                 </Choices>
 
                 <Choices name="age" choice="single" toName="image" perRegion="true" showInline="true" required="true">
+                    <Choice alias="NA" value="NA" selected = "true"/>
                     <Choice alias="ADU" value="Adult" />
                     <Choice alias="YOY" value="Young of Year" />
                     <Choice alias="YEA" value="Yearling" />
@@ -81,6 +85,7 @@
 
                 <Header value="Behavior" size="5" />
                 <Choices name="behavior" choice="single" toName="image" perRegion="true" showInline="true">
+                    <Choice alias="NA" value="NA" selected = "true"/>
                     <Choice alias="FE" value="Feeding" />
                     <Choice alias="TR" value="Travelling" />
                     <Choice alias="ST" value="Standing" />
@@ -89,6 +94,7 @@
 
                 <Header value="Unique Markings" size="5" />
                 <Choices name="unique_markings" choice="single" toName="image" perRegion="true" showInline="true">
+                    <Choice alias="NA" value="NA" selected = "true"/>
                     <Choice alias="AM" value="Antler Marks" />
                     <Choice alias="PM" value="Pelage Marks" />
                     <Choice alias="AL" value="Alopecia" />
