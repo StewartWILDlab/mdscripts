@@ -7,7 +7,7 @@
         </View>
 
         <View className="interface" style="flex: 40%">
-            
+
             <View>
                 <RectangleLabels name="label_rectangles" toName="image" showInline="true">
                     <Label value="animal" background="rgba(0, 255, 0, 1)" />
