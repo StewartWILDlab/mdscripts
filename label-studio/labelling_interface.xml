@@ -95,7 +95,7 @@
                 </Choices>
 
                 <Header value="Unique Markings" size="5" />
-                <Choices name="unique_markings" choice="single" toName="image" perRegion="true" showInline="true">
+                <Choices name="unique_markings" choice="multiple" toName="image" perRegion="true" showInline="true">
                     <Choice alias="NA" value="NA" />
                     <Choice alias="AM" value="Antler Marks" />
                     <Choice alias="PM" value="Pelage Marks" />
