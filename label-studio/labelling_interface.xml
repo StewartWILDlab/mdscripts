@@ -91,6 +91,7 @@
                     <Choice alias="TR" value="Travelling" />
                     <Choice alias="ST" value="Standing" />
                     <Choice alias="LY" value="Lying" />
+                    <Choice alias="UNB" value="Unknown" />
                 </Choices>
 
                 <Header value="Unique Markings" size="5" />
