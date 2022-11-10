@@ -42,7 +42,7 @@ done
 
 OLD_DIR=$PWD
 
-for DIR in "P072"; do #"${DIRS[@]}"; do
+for DIR in "${DIRS[@]}"; do # "P072"; do 
 
     echo "*** RUNNING MD ***"
     
