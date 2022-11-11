@@ -1,4 +1,4 @@
-<!-- /label-studio/files/TrailCamStorage/<folder. -->
+<!-- /label-studio/files/TrailCamStorage/<folder> -->
 <View>
     <Style> .interface { margin-left: 10px }</Style>
     <View style="display:flex ">
