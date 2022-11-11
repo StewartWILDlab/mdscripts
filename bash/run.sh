@@ -13,7 +13,8 @@ THRESHOLD_FILTER=0.1
 # THRESHOLD=0.0001
 
 OVERWRITE_MD=false
-OVERWRITE_LS=false
+
+OVERWRITE_LS=true
 
 OVERWRITE_MD_CSV=true
 OVERWRITE_EXIF_CSV=true
@@ -42,7 +43,7 @@ done
 
 OLD_DIR=$PWD
 
-for DIR in "${DIRS[@]}"; do # "P072"; do 
+for DIR in "P072"; do # "${DIRS[@]}"; do # "P072"; do 
 
     echo "*** RUNNING MD ***"
     
@@ -89,7 +90,7 @@ for DIR in "${DIRS[@]}"; do # "P072"; do
        echo "Output file $OUTPUT_CSV exists, moving to the next folder"
 
     else
-        mdtools convert csv $STORAGE_DIR/$OUTPUT_JSON -re False
+        mdtools convert csv $STORAGE_DIR/$OUTPUT_JSON -re False -wc True
     fi
 
     echo "*** RUNNING EXIF CSV ***"
