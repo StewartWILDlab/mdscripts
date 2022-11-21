@@ -43,6 +43,7 @@
                     <Choice value="Beaver" />
                     <Choice value="Bird sp" />
                     <Choice value="Black bear" />
+                    <Choice value="Canada Goose" />
                     <Choice value="Canada Jay" />
                     <Choice value="Canada Lynx" />
                     <Choice value="Duck sp" />
