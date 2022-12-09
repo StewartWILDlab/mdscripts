@@ -54,6 +54,7 @@
                     <Choice value="Least weasel" />
                     <Choice value="Long-tailed weasel" />
                     <Choice value="Muskrat" />
+                    <Choice value="Mustelid sp" />
                     <Choice value="Northern flying squirrel" />
                     <Choice value="Owl" />
                     <Choice value="Polar bear" />
