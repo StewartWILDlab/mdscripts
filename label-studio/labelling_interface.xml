@@ -53,19 +53,25 @@
                     <Choice value="Least chipmunk" />
                     <Choice value="Least weasel" />
                     <Choice value="Long-tailed weasel" />
+                    <Choice value="Mallard" />
                     <Choice value="Muskrat" />
                     <Choice value="Mustelid sp" />
                     <Choice value="Northern flying squirrel" />
                     <Choice value="Owl" />
                     <Choice value="Polar bear" />
                     <Choice value="Raccoon" />
+                    <Choice value="Raven" />
                     <Choice value="Red fox" />
                     <Choice value="Red squirrel" />
                     <Choice value="River otter" />
+                    <Choice value="Robin" />
+                    <Choice value="Ruffed grouse" />
                     <Choice value="Short-tailed weasel" />
                     <Choice value="Spruce grouse" />
                     <Choice value="Snowshoe hare" />
                     <Choice value="Striped skunk" />
+                    <Choice value="Green winged teal" />
+                    <Choice value="Blue winged teal" />
                     <Choice value="White-tailed deer" />
                     <Choice value="Wolverine" />
 
