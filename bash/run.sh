@@ -68,6 +68,7 @@ for DIR in "${DIRS[@]}"; do # "P072"; do
             --checkpoint_frequency $CHECKPOINT_FREQ \
             --checkpoint_path $STORAGE_DIR/$CHECKPOINT_PATH \
             --quiet \
+            --include_max_conf \
             --resume_from_checkpoint $STORAGE_DIR/$CHECKPOINT_PATH \
             --allow_checkpoint_overwrite #--threshold $THRESHOLD
 
@@ -75,6 +76,7 @@ for DIR in "${DIRS[@]}"; do # "P072"; do
         python $MD_FOLDER/detection/run_detector_batch.py \
             $MD_FOLDER/$MODEL $RUN_DIR $STORAGE_DIR/$OUTPUT_JSON \
             --output_relative_filenames --recursive \
+            --include_max_conf \
             --checkpoint_frequency $CHECKPOINT_FREQ \
             --checkpoint_path $STORAGE_DIR/$CHECKPOINT_PATH \
             --quiet #--threshold $THRESHOLD
