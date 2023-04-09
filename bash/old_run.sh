@@ -4,7 +4,8 @@
 ## Make sure to activate conda env first
 
 # VARS
-STORAGE_DIR="/media/vlucet/TrailCamST/TrailCamStorage"
+# STORAGE_DIR="/media/vlucet/TrailCamST/TrailCamStorage"
+STORAGE_DIR="/home/vlucet/Documents/WILDLab/mdtools/tests/test_images/"
 BASE_FOLDER="/home/vlucet/Documents/WILDLab/repos/MDtest/git"
 MD_FOLDER="$BASE_FOLDER/cameratraps"
 MODEL="md_v5a.0.0.pt"
@@ -12,7 +13,7 @@ CHECKPOINT_FREQ=1000
 THRESHOLD_FILTER=0.1
 # THRESHOLD=0.0001
 
-OVERWRITE_MD=false
+OVERWRITE_MD=true
 
 OVERWRITE_LS=true
 
@@ -82,46 +83,46 @@ for DIR in "${DIRS[@]}"; do # "P072"; do
             --quiet #--threshold $THRESHOLD
     fi
 
-    echo "*** RUNNING MD CSV ***"
+    # echo "*** RUNNING MD CSV ***"
 
-    OUTPUT_CSV="$(basename $DIR)_output.csv"
-    echo $OUTPUT_CSV
+    # OUTPUT_CSV="$(basename $DIR)_output.csv"
+    # echo $OUTPUT_CSV
 
-    if [ -f "$STORAGE_DIR/$OUTPUT_CSV" ] && [ "$OVERWRITE_MD_CSV" != true ]; then # if output exist, do nothing
+    # if [ -f "$STORAGE_DIR/$OUTPUT_CSV" ] && [ "$OVERWRITE_MD_CSV" != true ]; then # if output exist, do nothing
         
-       echo "Output file $OUTPUT_CSV exists, moving to the next folder"
+    #    echo "Output file $OUTPUT_CSV exists, moving to the next folder"
 
-    else
-        mdtools convert csv $STORAGE_DIR/$OUTPUT_JSON -re False -wc True
-    fi
+    # else
+    #     mdtools convert csv $STORAGE_DIR/$OUTPUT_JSON -re False -wc True
+    # fi
 
-    echo "*** RUNNING EXIF CSV ***"
+    # echo "*** RUNNING EXIF CSV ***"
 
-    OUTPUT_EXIF_CSV="$(basename $DIR)_exif.csv"
-    echo $OUTPUT_EXIF_CSV
+    # OUTPUT_EXIF_CSV="$(basename $DIR)_exif.csv"
+    # echo $OUTPUT_EXIF_CSV
 
-    if [ -f "$STORAGE_DIR/$OUTPUT_EXIF_CSV" ] && [ "$OVERWRITE_EXIF_CSV" != true ]; then # if output exist, do nothing
+    # if [ -f "$STORAGE_DIR/$OUTPUT_EXIF_CSV" ] && [ "$OVERWRITE_EXIF_CSV" != true ]; then # if output exist, do nothing
         
-       echo "Output file $OUTPUT_EXIF_CSV exists, moving to the next folder"
+    #    echo "Output file $OUTPUT_EXIF_CSV exists, moving to the next folder"
 
-    else
-        mdtools readexif $STORAGE_DIR/$OUTPUT_JSON
-    fi
+    # else
+    #     mdtools readexif $STORAGE_DIR/$OUTPUT_JSON
+    # fi
 
-    echo "*** RUNNING JOIN EXIF CSV TO MD CSV"
+    # echo "*** RUNNING JOIN EXIF CSV TO MD CSV"
     
-    OUTPUT_COMBINED_CSV="$(basename $DIR)_combined.csv"
-    echo $OUTPUT_COMBINED_CSV
+    # OUTPUT_COMBINED_CSV="$(basename $DIR)_combined.csv"
+    # echo $OUTPUT_COMBINED_CSV
 
-    if [ -f "$STORAGE_DIR/$OUTPUT_COMBINED_CSV" ] && [ "$OVERWRITE_COMBINED" != true ]; then # if output exist, do nothing
+    # if [ -f "$STORAGE_DIR/$OUTPUT_COMBINED_CSV" ] && [ "$OVERWRITE_COMBINED" != true ]; then # if output exist, do nothing
         
-        echo "Output file $OUTPUT_COMBINED_CSV exists, moving to the next folder"
+    #     echo "Output file $OUTPUT_COMBINED_CSV exists, moving to the next folder"
 
-    else
+    # else
 
-        mdtools joinexif $STORAGE_DIR/$OUTPUT_CSV $STORAGE_DIR/$OUTPUT_EXIF_CSV $STORAGE_DIR/$OUTPUT_COMBINED_CSV
+    #     mdtools joinexif $STORAGE_DIR/$OUTPUT_CSV $STORAGE_DIR/$OUTPUT_EXIF_CSV $STORAGE_DIR/$OUTPUT_COMBINED_CSV
 
-    fi
+    # fi
 
     echo "*** RUNNING CONVERTER TO LS ***"
 
@@ -134,25 +135,25 @@ for DIR in "${DIRS[@]}"; do # "P072"; do
 
     else
 
-        mdtools convert ls $STORAGE_DIR/$OUTPUT_JSON -ct $THRESHOLD_FILTER -bd $RUN_DIR \
+        mdtools convert ls $STORAGE_DIR/$OUTPUT_JSON $RUN_DIR -ct $THRESHOLD_FILTER \
             -ru "data/local-files/?d=$(basename $STORAGE_DIR)/$(basename $DIR)" \
-            --write-coco True --use-score-table True --score-table $STORAGE_DIR/$OUTPUT_COMBINED_CSV
+            --write-ls --write-csv --write-coco
     fi
 
 done
 
-echo "*** COMBINING CSVs ***"
+# echo "*** COMBINING CSVs ***"
 
-if [ -f "$STORAGE_DIR/exif_combined.csv" ] && [ "$OVERWRITE_EXIF_COMBINED" != true ]; then
-    echo "EXIF combined file present"
-else
-    csvstack $STORAGE_DIR/*_exif.csv > $STORAGE_DIR/exif_combined.csv
-fi
+# if [ -f "$STORAGE_DIR/exif_combined.csv" ] && [ "$OVERWRITE_EXIF_COMBINED" != true ]; then
+#     echo "EXIF combined file present"
+# else
+#     csvstack $STORAGE_DIR/*_exif.csv > $STORAGE_DIR/exif_combined.csv
+# fi
 
-if [ -f "$STORAGE_DIR/md_combined.csv" ] && [ "$OVERWRITE_MD_COMBINED" != true ]; then
-    echo "MD combined file present"
-else
-    csvstack $STORAGE_DIR/*_output.csv > $STORAGE_DIR/md_combined.csv
-fi
+# if [ -f "$STORAGE_DIR/md_combined.csv" ] && [ "$OVERWRITE_MD_COMBINED" != true ]; then
+#     echo "MD combined file present"
+# else
+#     csvstack $STORAGE_DIR/*_output.csv > $STORAGE_DIR/md_combined.csv
+# fi
 
 cd $OLD_DIR
