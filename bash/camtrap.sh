@@ -19,15 +19,15 @@ print_main_usage(){
     echo ""
     echo "  Usage: camtrap.sh [-a run all] [-p prep only]"
     echo ""
-    echo "  Subcommands: md, convert"
+    echo "  Subcommands: md, convert, repeat"
 }
 
 # ------------------------------------------------------------------
 
 export_default_vars(){
 
-    # STORAGE_DIR="/media/vlucet/TrailCamST/TrailCamStorage"
-    STORAGE_DIR="/home/vlucet/Documents/WILDLab/mdtools/tests/test_images/"
+    STORAGE_DIR="/media/vlucet/TrailCamST/TrailCamStorage"
+    # STORAGE_DIR="/home/vlucet/Documents/WILDLab/mdtools/tests/test_images/"
     BASE_FOLDER="/home/vlucet/Documents/WILDLab/repos/MDtest/git"
     
     MD_FOLDER="$BASE_FOLDER/cameratraps"
@@ -35,6 +35,9 @@ export_default_vars(){
     CHECKPOINT_FREQ=1000
     THRESHOLD_FILTER=0.1
     # THRESHOLD=0.0001
+
+    IOU_THRESHOLD=0.85
+    NDIR_LEVEL=1
 
     OVERWRITE_MD=true
     OVERWRITE_LS=true
@@ -56,6 +59,8 @@ print_vars(){
     echo "      MODEL = $MODEL"
     echo "      CHECKPOINT_FREQ = $CHECKPOINT_FREQ"
     echo "      THRESHOLD_FILTER = $THRESHOLD_FILTER"
+    echo "      IOU_THRESHOLD = $IOU_THRESHOLD"
+    echo "      NDIR_LEVEL = $NDIR_LEVEL"
     echo ""
     echo "Variables for workflow: "
     echo "      OVERWRITE_MD = $OVERWRITE_MD"
@@ -75,6 +80,9 @@ crawl_dirs(){
     # Find all folders
     echo "Finding all folders"
     for FILE in $STORAGE_DIR/*; do
+        if [[ "$FILE" == *"repeat"* ]];then
+            continue
+        fi
         [[ -d $FILE ]] && DIRS+=("$FILE")
     done
 
@@ -178,6 +186,53 @@ run_convert(){
     cd $OLD_DIR
 }
 
+run_detect_repeat(){
+
+    OLD_DIR=$PWD
+
+    for DIR in "${DIRS[@]}"; do
+
+        OUTPUT_JSON="$(basename $DIR)_output.json"
+        echo $OUTPUT_JSON
+
+        OUTPUT_BASE="$(basename $DIR)_repeat"
+        echo $OUTPUT_BASE
+
+        python $MD_FOLDER/api/batch_processing/postprocessing/repeat_detection_elimination/find_repeat_detections.py \
+            $OUTPUT_JSON --imageBase "$(basename $DIR)" --outputBase $OUTPUT_BASE \
+            --confidenceMin $THRESHOLD_FILTER --iouThreshold $IOU_THRESHOLD --nDirLevelsFromLeaf $NDIR_LEVEL
+
+    done
+
+    cd $OLD_DIR
+}
+
+run_remove_repeat(){
+
+    OLD_DIR=$PWD
+
+    for DIR in "${DIRS[@]}"; do
+
+        OUTPUT_JSON="$(basename $DIR)_output.json"
+        echo $OUTPUT_JSON
+
+        OUTPUT_BASE="$(basename $DIR)_repeat"
+        echo $OUTPUT_BASE
+
+        OUTPUT_JSON_REP="$(basename $DIR)_output_norepeats.json"
+        echo $OUTPUT_JSON_REP
+
+        FILT_DIR=$(ls -td $OUTPUT_BASE/*/ | head -1)
+        echo $FILT_DIR
+
+        python $MD_FOLDER/api/batch_processing/postprocessing/repeat_detection_elimination/remove_repeat_detections.py \
+            $OUTPUT_JSON $OUTPUT_JSON_REP $FILT_DIR
+
+    done
+
+    cd $OLD_DIR
+}
+
 # ------------------------------------------------------------------
 
 while getopts ":ap" opt; do
@@ -213,6 +268,15 @@ case "$subcommand" in
 
     run_prep
     run_convert
+
+    shift $((OPTIND -1))
+    ;;
+
+  repeat)
+
+    run_prep
+    # run_detect_repeat
+    run_remove_repeat
 
     shift $((OPTIND -1))
     ;;
