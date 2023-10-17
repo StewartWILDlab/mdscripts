@@ -44,6 +44,9 @@ export_default_vars(){
     OVERWRITE_MD_CSV=true
     OVERWRITE_EXIF_CSV=true
 
+    OVERWRITE_COCO_REPEAT=false
+    OVERWRITE_LS_REPEAT=false
+
     OVERWRITE_COMBINED=true
     OVERWRITE_MD_COMBINED=false
     OVERWRITE_EXIF_COMBINED=false
@@ -233,6 +236,64 @@ run_remove_repeat(){
     cd $OLD_DIR
 }
 
+run_convert_repeat(){
+
+    OLD_DIR=$PWD
+
+    # for DIR in "${DIRS[@]}"; do
+
+    #     echo "*** RUNNING REPEAT CONVERTER TO COCO ***"
+
+    #     RUN_DIR=$STORAGE_DIR/$(basename $DIR)
+    #     echo "Running on directory: $RUN_DIR"
+
+    #     OUTPUT_JSON_REPEAT="$(basename $DIR)_output_norepeats.json"
+    #     echo $OUTPUT_JSON_REPEAT
+
+    #     OUTPUT_COCO_REPEAT="$(basename $DIR)_output_coco_norepeats.json"
+    #     echo $OUTPUT_COCO_REPEAT
+
+    #     if [ -f "$STORAGE_DIR/$OUTPUT_COCO_REPEAT" ] && [ "$OVERWRITE_COCO_REPEAT" != true ]; then # if output exist, do nothing
+            
+    #         echo "Output file $OUTPUT_COCO_REPEAT exists, moving to the next folder"
+
+    #     else
+
+    #         mdtools convert cct $STORAGE_DIR/$OUTPUT_JSON_REPEAT $RUN_DIR --write-coco --repeat
+    #     fi
+
+    # done
+
+    for DIR in "${DIRS[@]}"; do
+
+        echo "*** RUNNING REPEAT CONVERTER TO LS ***"
+
+        RUN_DIR=$STORAGE_DIR/$(basename $DIR)
+        echo "Running on directory: $RUN_DIR"
+
+        OUTPUT_JSON_REPEAT="$(basename $DIR)_output_norepeats.json"
+        echo $OUTPUT_JSON_REPEAT
+
+        OUTPUT_JSON_LS_REPEAT="$(basename $DIR)_output_ls_norepeats.json"
+        echo $OUTPUT_JSON_LS
+
+        if [ -f "$STORAGE_DIR/$OUTPUT_JSON_LS_REPEAT" ] && [ "$OVERWRITE_LS_REPEAT" != true ]; then # if output exist, do nothing
+            
+            echo "Output file $OUTPUT_JSON_LS_REPEAT exists, moving to the next folder"
+
+        else
+
+            mdtools convert ls $STORAGE_DIR/$OUTPUT_JSON_REPEAT $RUN_DIR -ct $THRESHOLD_FILTER \
+                -ru "data/local-files/?d=$(basename $STORAGE_DIR)/$(basename $DIR)" \
+                --write-ls --repeat --write-csv
+        fi
+
+    done
+
+    cd $OLD_DIR
+
+}
+
 # ------------------------------------------------------------------
 
 while getopts ":ap" opt; do
@@ -276,7 +337,8 @@ case "$subcommand" in
 
     run_prep
     # run_detect_repeat
-    run_remove_repeat
+    # run_remove_repeat
+    run_convert_repeat
 
     shift $((OPTIND -1))
     ;;
