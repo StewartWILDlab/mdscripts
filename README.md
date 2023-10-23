@@ -1,4 +1,4 @@
-### mdscripts
+### mdscripts [no longer used, bee nmerged]
 
 Scripts to run MegaDetector and processing workflow
 
