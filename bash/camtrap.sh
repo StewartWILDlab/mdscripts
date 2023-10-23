@@ -7,28 +7,48 @@
 
 # ------------------------------------------------------------------
 
-# Export python path
-export PYTHONPATH="$PYTHONPATH:$MD_FOLDER"
-export PYTHONPATH="$PYTHONPATH:$BASE_FOLDER/ai4eutils"
-export PYTHONPATH="$PYTHONPATH:$BASE_FOLDER/yolov5"
+# Declare variables first
+
+STORAGE_DIR=""
+BASE_FOLDER=""
 
 # ------------------------------------------------------------------
 
 print_main_usage(){
+cat <<EOM
+    Usage: camtrap.sh [-s storage_dir] [-b base_folder] <subcommand>
 
-    echo ""
-    echo "  Usage: camtrap.sh [-a run all] [-p prep only]"
-    echo ""
-    echo "  Subcommands: md, convert, repeat"
+    CLI UTILITY FOR Camera trap workflow
+    WARNING: Make sure to activate conda env first
+
+    Options:
+      -s    Set the storage directory for camera trap images.
+      -b    Set the base folder for the workflow.
+
+    Subcommands:
+      all      Run the entire camera trap workflow.
+      prep     Run the preparation steps for the workflow.
+      md       Run the megadetector (MD) step.
+      convert  Run the converter to LS step.
+      repeat   Run the repeat detection and conversion step.
+
+    Examples:
+      camtrap.sh -s /path/to/storage -b /path/to/base_folder all
+      camtrap.sh -s /path/to/storage -b /path/to/base_folder prep
+      camtrap.sh -s /path/to/storage -b /path/to/base_folder md
+      camtrap.sh -s /path/to/storage -b /path/to/base_folder convert
+      camtrap.sh -s /path/to/storage -b /path/to/base_folder repeat
+EOM
 }
 
 # ------------------------------------------------------------------
 
 export_default_vars(){
 
-    STORAGE_DIR="/media/vlucet/TrailCamST/TrailCamStorage"
+    # STORAGE_DIR="/media/vlucet/TrailCamST/TrailCamStorage"
     # STORAGE_DIR="/home/vlucet/Documents/WILDLab/mdtools/tests/test_images/"
-    BASE_FOLDER="/home/vlucet/Documents/WILDLab/repos/MDtest/git"
+    # STORAGE_DIR="/media/vlucet/My Passport/Images"
+    # BASE_FOLDER="/home/vlucet/Documents/WILDLab/repos/MDtest/git"
     
     MD_FOLDER="$BASE_FOLDER/cameratraps"
     MODEL="md_v5a.0.0.pt"
@@ -39,7 +59,7 @@ export_default_vars(){
     IOU_THRESHOLD=0.85
     NDIR_LEVEL=1
 
-    OVERWRITE_MD=true
+    OVERWRITE_MD=false
     OVERWRITE_LS=true
     OVERWRITE_MD_CSV=true
     OVERWRITE_EXIF_CSV=true
@@ -50,6 +70,10 @@ export_default_vars(){
     OVERWRITE_COMBINED=true
     OVERWRITE_MD_COMBINED=false
     OVERWRITE_EXIF_COMBINED=false
+
+    export PYTHONPATH="$PYTHONPATH:$MD_FOLDER"
+    export PYTHONPATH="$PYTHONPATH:$BASE_FOLDER/ai4eutils"
+    export PYTHONPATH="$PYTHONPATH:$BASE_FOLDER/yolov5"
 }
 
 print_vars(){
@@ -82,11 +106,12 @@ crawl_dirs(){
 
     # Find all folders
     echo "Finding all folders"
-    for FILE in $STORAGE_DIR/*; do
+    for FILE in "$STORAGE_DIR"/*; do
+        echo "$FILE"
         if [[ "$FILE" == *"repeat"* ]];then
             continue
         fi
-        [[ -d $FILE ]] && DIRS+=("$FILE")
+        [[ -d "$FILE" ]] && DIRS+=("$FILE")
     done
 
     echo "      Directory list:"
@@ -116,13 +141,13 @@ run_md(){
 
         echo "*** RUNNING MD ***"
 
-        RUN_DIR=$STORAGE_DIR/$(basename $DIR)
+        RUN_DIR="$STORAGE_DIR/$(basename "$DIR")"
         echo "Running on directory: $RUN_DIR"
 
-        OUTPUT_JSON="$(basename $DIR)_output.json"
+        OUTPUT_JSON="$(basename "$DIR")_output.json"
         echo $OUTPUT_JSON
         
-        CHECKPOINT_PATH="$(basename $DIR)_checkpoint.json"
+        CHECKPOINT_PATH="$(basename "$DIR")_checkpoint.json"
         echo $CHECKPOINT_PATH
 
         if [ -f "$STORAGE_DIR/$OUTPUT_JSON" ] && [ "$OVERWRITE_MD" != true ]; then # if output exist, do nothing
@@ -132,22 +157,22 @@ run_md(){
         elif [ -f "$STORAGE_DIR/$CHECKPOINT_PATH" ]; then # else, if checkpoint exists, use it
 
             python $MD_FOLDER/detection/run_detector_batch.py \
-                $MD_FOLDER/$MODEL $RUN_DIR $STORAGE_DIR/$OUTPUT_JSON \
+                $MD_FOLDER/$MODEL "$RUN_DIR" "$STORAGE_DIR/$OUTPUT_JSON" \
                 --output_relative_filenames --recursive \
                 --checkpoint_frequency $CHECKPOINT_FREQ \
-                --checkpoint_path $STORAGE_DIR/$CHECKPOINT_PATH \
+                --checkpoint_path "$STORAGE_DIR/$CHECKPOINT_PATH" \
                 --quiet \
                 --include_max_conf \
-                --resume_from_checkpoint $STORAGE_DIR/$CHECKPOINT_PATH \
+                --resume_from_checkpoint "$STORAGE_DIR/$CHECKPOINT_PATH" \
                 --allow_checkpoint_overwrite #--threshold $THRESHOLD
 
         else # else, start new run
             python $MD_FOLDER/detection/run_detector_batch.py \
-                $MD_FOLDER/$MODEL $RUN_DIR $STORAGE_DIR/$OUTPUT_JSON \
+                $MD_FOLDER/$MODEL "$RUN_DIR" "$STORAGE_DIR/$OUTPUT_JSON" \
                 --output_relative_filenames --recursive \
                 --include_max_conf \
                 --checkpoint_frequency $CHECKPOINT_FREQ \
-                --checkpoint_path $STORAGE_DIR/$CHECKPOINT_PATH \
+                --checkpoint_path "$STORAGE_DIR/$CHECKPOINT_PATH" \
                 --quiet #--threshold $THRESHOLD
         fi
 
@@ -291,57 +316,69 @@ run_convert_repeat(){
     done
 
     cd $OLD_DIR
-
 }
 
 # ------------------------------------------------------------------
 
-while getopts ":ap" opt; do
+while getopts ":s:b:" opt; do
   case ${opt} in
-    a )
-      run_all
+    s )
+      STORAGE_DIR=$OPTARG
       ;;
-    p )
-      run_prep
+    b )
+      BASE_FOLDER=$OPTARG
       ;;
     \? )
-      print_main_usage
-      echo "" 1>&2
+      echo "Invalid option -$OPTARG"
       exit 1
       ;;
-  esac
+    esac
 done
 
 shift $((OPTIND-1))
 
 subcommand=$1; shift # remove subcommand from the argument list
 case "$subcommand" in
+    
+    all )
+        echo "Running 'run_all'"
+        run_all
 
-  md)
+        shift $((OPTIND -1))
+        ;;
 
-    run_prep
-    run_md    
+    prep )
+        echo "Running 'run_prep'"
+        run_prep
 
-    shift $((OPTIND -1))
-    ;;
+        shift $((OPTIND -1))
+        ;;
 
-  convert)
+    md)
+        echo "Running MD step"
+        run_prep
+        run_md    
 
-    run_prep
-    run_convert
+        shift $((OPTIND -1))
+        ;;
 
-    shift $((OPTIND -1))
-    ;;
+    convert)
+        echo "Running convert step"
+        run_prep
+        run_convert
 
-  repeat)
+        shift $((OPTIND -1))
+        ;;
 
-    run_prep
-    # run_detect_repeat
-    # run_remove_repeat
-    run_convert_repeat
+    repeat)
+        echo "Running repeat step"
+        run_prep
+        # run_detect_repeat
+        # run_remove_repeat
+        run_convert_repeat
 
-    shift $((OPTIND -1))
-    ;;
+        shift $((OPTIND -1))
+        ;;
 
 esac
 
